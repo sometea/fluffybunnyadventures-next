@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     <div className="bg-gray-200 min-w-full flex items-center p-6">
       <img className="block flex-grow-0 mr-4" src="/images/bunny.svg" width="50px" height="50px" alt="bunny" />
-      <a className="block flex-grow-0" href="/"><h1 className="text-3xl font-bold">fluffy bunny adventures</h1></a>
+      <Link href="/"><a className="block flex-grow-0"><h1 className="text-3xl font-bold">fluffy bunny adventures</h1></a></Link>
       <div className="flex-grow"></div>
       {/* {%- for page in collections.pages -%} */}
       <Link href="/about"><a className="block flex-grow-0">About</a></Link>
