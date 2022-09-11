@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+
+.m-h-image {
+  max-height: 22rem;
+}
+
+.prose img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@tailwind utilities;
