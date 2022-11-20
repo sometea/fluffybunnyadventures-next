@@ -16,7 +16,7 @@ const Post: NextPage<PostProps> = ({
 
 export async function getStaticProps(context: GetStaticPropsContext): Promise<GetStaticPropsResult<PostProps>> {
   const { id } = context.params!;
-  const post = await (await fetch(`${config.apiUrl}/${id}`, {
+  const post = await (await fetch(`${config.apiUrl}/?slug=${id}`, {
     headers: {
       Authorization: `Bearer ${config.key}`,
     }
@@ -36,7 +36,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     }
   })).json();
   return {
-    paths: posts.documents.map((post: any) => ({ params: { id: post.id } })),
+    paths: posts.documents.map((post: any) => ({ params: { id: post.slug || post.id } })),
     fallback: false,
   };
 }

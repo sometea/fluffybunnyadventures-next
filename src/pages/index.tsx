@@ -13,6 +13,7 @@ interface Card {
 
 interface Document {
   id: string;
+  slug: string;
   title: string;
   updatedBy: string;
   teaser: string;
@@ -45,7 +46,7 @@ export async function getStaticProps(): Promise<GetStaticPropsResult<HomeProps>>
     props: {
       posts: apiResult.documents.map((document: Document) => ({
         title: document.title,
-        url: `/${document.id}`,
+        url: `/${document.slug}`,
         teaser: document.teaser,
         image: document.image,
         date: (new Date(document.date)).toLocaleDateString(),
