@@ -44,7 +44,9 @@ export async function getStaticProps(): Promise<GetStaticPropsResult<HomeProps>>
   })).json();
   return {
     props: {
-      posts: apiResult.documents.map((document: Document) => ({
+      posts: apiResult.documents
+      .sort((d1: Document, d2: Document) => d2.date - d1.date)
+      .map((document: Document) => ({
         title: document.title,
         url: `/${document.slug}`,
         teaser: document.teaser,
