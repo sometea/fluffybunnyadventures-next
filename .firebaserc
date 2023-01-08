@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "fluffycms-d52d4"
+  },
+  "targets": {
+    "fluffycms-d52d4": {
+      "hosting": {
+        "fluffy-next": [
+          "fluffy-next"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
