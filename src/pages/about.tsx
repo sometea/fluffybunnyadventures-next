@@ -2,7 +2,9 @@ import { NextPage } from "next";
 
 const About: NextPage = () => <div className="prose lg:prose-xl p-6">
   <h2>About</h2>
-  <p>This site is the fluffy bunny adventures blog. It follows the fluffy bunny adventures through Vienna and Italy.</p>
+  <p>This site is the fluffy bunny adventures blog. It follows the fluffy bunny adventures through Vienna, Italy, Switzerland, Scotland
+    and other places.
+  </p>
 
   <p>Responsible:</p>
   <p>
