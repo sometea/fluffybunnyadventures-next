@@ -1,11 +1,9 @@
-# Use the lightweight Caddy image
-FROM caddy:2-alpine
+FROM docker.io/pierrezemb/gostatic:latest
 
-# Set the working directory
-WORKDIR /usr/share/caddy
+WORKDIR /srv/http
 
-# Copy your built static site into the container
 COPY out/ .
 
-# Provide a Caddyfile for SPA routing
-COPY Caddyfile /etc/caddy/Caddyfile
+EXPOSE 3000
+
+CMD ["-fallback", "/index.html", "-port", "3000"]
