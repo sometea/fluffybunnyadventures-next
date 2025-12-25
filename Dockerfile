@@ -1,9 +1,10 @@
-FROM docker.io/pierrezemb/gostatic:latest
+FROM node:24-alpine as builder
+WORKDIR /code/
+ADD package-lock.json .
+ADD package.json .
+RUN npm ci
+ADD . .
+RUN npm run build
 
-WORKDIR /srv/http
-
-COPY out/ .
-
-EXPOSE 3000
-
-CMD ["-fallback", "/index.html", "-port", "3000"]
+FROM docker.io/devforth/spa-to-http:latest
+COPY --from=builder /code/out/ . 
