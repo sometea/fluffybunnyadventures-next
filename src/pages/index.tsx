@@ -54,10 +54,20 @@ export async function getStaticProps(): Promise<GetStaticPropsResult<HomeProps>>
         date: (new Date(document.date)).toLocaleDateString(),
       })),
     };
-  await writeFile(`data/home.json`, JSON.stringify(homeProps, null, 2), 'utf-8');
+  const cleanedHomeProps = { posts: await Promise.all(homeProps.posts.map(downloadImageAndUpdateURL)) };
+  await writeFile(`data/home.json`, JSON.stringify(cleanedHomeProps, null, 2), 'utf-8');
   return {
-    props: homeProps,
+    props: cleanedHomeProps,
   }
+}
+
+async function downloadImageAndUpdateURL(card: Card): Promise<Card> {
+  const imageResponse = await fetch(card.image);
+  const imageBuffer = await imageResponse.arrayBuffer();
+  const imageName = card.url.split('/').pop()! + '.jpg';
+  await writeFile(`public/images/home/${imageName}`, Buffer.from(imageBuffer));
+  card.image = `/images/home/${imageName}`;
+  return card;
 }
 
 export default Home;
