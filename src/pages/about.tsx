@@ -9,8 +9,8 @@ const About: NextPage = () => <div className="prose lg:prose-xl p-6">
   <p>Responsible:</p>
   <p>
     David Dasenbrook<br />
-    Sachsenring 67<br />
-    50677 Köln<br />
+    Schöneberger Str. 18<br />
+    10963 Berlin<br />
     info at beamtime dot net.
   </p>
 </div>;

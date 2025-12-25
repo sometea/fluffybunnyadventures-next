@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div className="max-w-screen-xl ml-auto mr-auto">
       <Component {...pageProps} />
     </div>
-    <div className="min-w-full bg-gray-200 p-6">(C) 2020-2022 David Dasenbrook. contact: info at beamtime dot net.</div>
+    <div className="min-w-full bg-gray-200 p-6">(C) 2020-2026 David Dasenbrook. contact: info at beamtime dot net.</div>
   </>
 }
 
