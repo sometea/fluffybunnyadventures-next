@@ -1,6 +1,7 @@
 import type { GetStaticPropsResult, NextPage, NextPageContext } from 'next';
 import { Card } from '../components/card';
 import { config } from '../config/config';
+import { writeFile } from 'fs/promises';
 
 interface Card {
   title: string;
@@ -42,8 +43,7 @@ export async function getStaticProps(): Promise<GetStaticPropsResult<HomeProps>>
       Authorization: `Bearer ${config.key}`,
     }
   })).json();
-  return {
-    props: {
+  const homeProps = {
       posts: apiResult.documents
       .sort((d1: Document, d2: Document) => d2.date - d1.date)
       .map((document: Document) => ({
@@ -53,7 +53,10 @@ export async function getStaticProps(): Promise<GetStaticPropsResult<HomeProps>>
         image: document.image,
         date: (new Date(document.date)).toLocaleDateString(),
       })),
-    },
+    };
+  await writeFile(`data/home.json`, JSON.stringify(homeProps, null, 2), 'utf-8');
+  return {
+    props: homeProps,
   }
 }
 
