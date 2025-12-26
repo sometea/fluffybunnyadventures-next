@@ -1,7 +1,8 @@
 import type { GetStaticPropsResult, NextPage, NextPageContext } from 'next';
 import { Card } from '../components/card';
-import { config } from '../config/config';
-import { writeFile } from 'fs/promises';
+// import { config } from '../config/config';
+// import { writeFile } from 'fs/promises';
+import { loadJson } from '../utils/loadJson';
 
 interface Card {
   title: string;
@@ -38,43 +39,43 @@ const Home: NextPage<HomeProps> = ({
 }
 
 export async function getStaticProps(): Promise<GetStaticPropsResult<HomeProps>> {
-  const homePropsRaw = await import('../../data/home.json');
+  const homePropsRaw = await loadJson<HomeProps>('data/home.json');
   return {
     props: homePropsRaw,
   }
 }
 
-export async function getStaticPropsFromOldServer(): Promise<GetStaticPropsResult<HomeProps>> {
-  const apiResult = await (await fetch(config.apiUrl, {
-    headers: {
-      Authorization: `Bearer ${config.key}`,
-    }
-  })).json();
-  const homeProps = {
-      posts: apiResult.documents
-      .sort((d1: Document, d2: Document) => d2.date - d1.date)
-      .map((document: Document) => ({
-        title: document.title,
-        url: `/${document.slug}`,
-        teaser: document.teaser,
-        image: document.image,
-        date: (new Date(document.date)).toLocaleDateString(),
-      })),
-    };
-  const cleanedHomeProps = { posts: await Promise.all(homeProps.posts.map(downloadImageAndUpdateURL)) };
-  await writeFile(`data/home.json`, JSON.stringify(cleanedHomeProps, null, 2), 'utf-8');
-  return {
-    props: cleanedHomeProps,
-  }
-}
+// export async function getStaticPropsFromOldServer(): Promise<GetStaticPropsResult<HomeProps>> {
+//   const apiResult = await (await fetch(config.apiUrl, {
+//     headers: {
+//       Authorization: `Bearer ${config.key}`,
+//     }
+//   })).json();
+//   const homeProps = {
+//       posts: apiResult.documents
+//       .sort((d1: Document, d2: Document) => d2.date - d1.date)
+//       .map((document: Document) => ({
+//         title: document.title,
+//         url: `/${document.slug}`,
+//         teaser: document.teaser,
+//         image: document.image,
+//         date: (new Date(document.date)).toLocaleDateString(),
+//       })),
+//     };
+//   const cleanedHomeProps = { posts: await Promise.all(homeProps.posts.map(downloadImageAndUpdateURL)) };
+//   await writeFile(`data/home.json`, JSON.stringify(cleanedHomeProps, null, 2), 'utf-8');
+//   return {
+//     props: cleanedHomeProps,
+//   }
+// }
 
-async function downloadImageAndUpdateURL(card: Card): Promise<Card> {
-  const imageResponse = await fetch(card.image);
-  const imageBuffer = await imageResponse.arrayBuffer();
-  const imageName = card.url.split('/').pop()! + '.jpg';
-  await writeFile(`public/images/home/${imageName}`, Buffer.from(imageBuffer));
-  card.image = `/images/home/${imageName}`;
-  return card;
-}
+// async function downloadImageAndUpdateURL(card: Card): Promise<Card> {
+//   const imageResponse = await fetch(card.image);
+//   const imageBuffer = await imageResponse.arrayBuffer();
+//   const imageName = card.url.split('/').pop()! + '.jpg';
+//   await writeFile(`public/images/home/${imageName}`, Buffer.from(imageBuffer));
+//   card.image = `/images/home/${imageName}`;
+//   return card;
+// }
 
 export default Home;
