@@ -38,6 +38,13 @@ const Home: NextPage<HomeProps> = ({
 }
 
 export async function getStaticProps(): Promise<GetStaticPropsResult<HomeProps>> {
+  const homePropsRaw = await import('../../data/home.json');
+  return {
+    props: homePropsRaw,
+  }
+}
+
+export async function getStaticPropsFromOldServer(): Promise<GetStaticPropsResult<HomeProps>> {
   const apiResult = await (await fetch(config.apiUrl, {
     headers: {
       Authorization: `Bearer ${config.key}`,

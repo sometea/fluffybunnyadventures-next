@@ -18,6 +18,14 @@ const Post: NextPage<PostProps> = ({
 
 export async function getStaticProps(context: GetStaticPropsContext): Promise<GetStaticPropsResult<PostProps>> {
   const { id } = context.params!;
+  const postRaw = await import(`../../data/posts/${id}.json`);
+  return {
+    props: postRaw,
+  };
+}
+
+export async function getStaticPropsFromOldServer(context: GetStaticPropsContext): Promise<GetStaticPropsResult<PostProps>> {
+  const { id } = context.params!;
   const post = await (await fetch(`${config.apiUrl}/?slug=${id}`, {
     headers: {
       Authorization: `Bearer ${config.key}`,
@@ -46,6 +54,14 @@ async function downloadImageAndUpdateURLs(post: PostProps): Promise<PostProps> {
 }
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+  const pathsRaw = await import('../../data/paths.json');
+  return {
+    paths: pathsRaw,
+    fallback: false,
+  };
+}
+
+export async function getStaticPathsFromOldServer(): Promise<GetStaticPathsResult> {
   const posts = await (await fetch(config.apiUrl, {
     headers: {
       Authorization: `Bearer ${config.key}`,
